@@ -33,7 +33,7 @@ public:
                 q.pop();
                 temp.push_back(node->val);
                 for(int i = 0;i<node->children.size();i++){
-                    if(node->children[i]!= NULL) q.push(node->children[i]);
+                    if(node->children[i] != NULL) q.push(node->children[i]);
                 }
             }
             res.push_back(temp);
