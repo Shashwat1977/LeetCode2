@@ -12,7 +12,6 @@
 class Solution {
 public:
     bool isSameTree(TreeNode* p, TreeNode* q) {
-        if(p == NULL && q==NULL) return true;
         return isSame(p,q);        
     }
     bool isSame(TreeNode* p,TreeNode* q){
