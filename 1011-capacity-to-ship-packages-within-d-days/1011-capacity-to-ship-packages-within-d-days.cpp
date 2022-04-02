@@ -15,7 +15,6 @@ int maxCapacity=0;
             }else{
                 l = mid+1;
             }
-            cout<<h<<endl;
         }
         return l;
     }
