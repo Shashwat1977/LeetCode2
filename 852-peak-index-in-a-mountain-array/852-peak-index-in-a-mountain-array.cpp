@@ -4,9 +4,12 @@ public:
         int l = 1;
         int h = arr.size()-1;
         while(l<=h){
-            int mid = l + (h-l)/2;
-            if(arr[mid-1]<arr[mid]) l = mid+1;
-            else h = mid-1;
+            int m = l+(h-l)/2;
+            if(arr[m-1]<arr[m]){
+                l = m+1;
+            }else{
+                h = m-1;
+            }
         }
         return h;
     }
