@@ -5,22 +5,21 @@ public:
         int h = *max_element(piles.begin(),piles.end());
         while(l<=h){
             int mid = l+(h-l)/2;
-            if(possible(mid,piles,k)){
-                h = mid-1;
+            if(possible(piles,k,mid)){
+                h=mid-1;
             }else{
                 l = mid+1;
             }
         }
         return l;
     }
-    bool possible(int mid,vector<int>& piles,int k){
-        int time = 0;
-        for(auto p : piles){
-            time += p/mid;
-            if(p%mid) time++;
+    bool possible(vector<int>& piles,int h,int k){
+        int cnt = 0;
+        for(int i = 0;i<piles.size();i++){
+            cnt += piles[i]%k == 0?piles[i]/k:piles[i]/k + 1;
         }
-        if(time<=k) return true;
-        return false;
+        return cnt<=h;
     }
+    
     
 };
