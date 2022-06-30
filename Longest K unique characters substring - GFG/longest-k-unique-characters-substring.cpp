@@ -39,6 +39,7 @@ class Solution{
                     
                     i++;
                 }
+                maxi = max(maxi,j-i+1);
                 j++;
             }
             
