@@ -1,27 +1,28 @@
 class Solution {
 public:
     int maxAreaOfIsland(vector<vector<int>>& grid) {
-        int m = grid.size();
-        int n = grid[0].size();int mx = 0;
-        for(int i = 0;i<m;i++){
-            for(int j = 0;j<n;j++){
-                int area = count(grid,i,j);
-                mx = max(mx,area);
+        int n = grid.size();
+        int m  = grid[0].size();
+        int mx = 0;
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<m;j++){
+                if(grid[i][j] == 1){
+                    mx = max(mx,dfs(i,j,grid));
+                }
             }
         }
         return mx;
     }
-    int count(vector<vector<int>>& grid,int i,int j){
-        if(i<0 || j<0 || i>grid.size()-1 || j>grid[0].size()-1){
+    int dfs(int r,int c,vector<vector<int>>& grid){
+        if(r<0 || r>=grid.size() || c<0 || c>=grid[0].size() || grid[r][c] == 0){
             return 0;
         }
-        if( grid[i][j]==0) return 0;
-        int c = 1;
-        grid[i][j] = 0;
-        c+= count(grid,i+1,j);
-        c+= count(grid,i-1,j);
-        c+=count(grid,i,j+1);
-        c+=count(grid,i,j-1);
-        return c;
+        int count = 1;
+        grid[r][c] = 0;
+        count += dfs(r+1,c,grid);
+        count += dfs(r,c-1,grid);
+        count += dfs(r-1,c,grid);
+        count += dfs(r,c+1,grid);
+        return count;
     }
 };
