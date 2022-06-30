@@ -6,10 +6,8 @@ public:
             degree[it[0]]--;
             degree[it[1]]++;
         }
-        for(int i = 1;i<=n;i++){
-            if(degree[i] == n-1){
-                return i;
-            }
+        for(int it = 1;it<=n;it++) {
+            if(degree[it] == n-1) return it;
         }
         return -1;
     }
