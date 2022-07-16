@@ -27,12 +27,10 @@ public:
         return ans;
     }
     void pre(Node* root,vector<int> & ans){
-        if(root == NULL){
-            return;
-        }
-        int n = root->children.size();
+        if(root == NULL) return;
         ans.push_back(root->val);
-        for(int i = 0;i<n;i++){
+        int i;
+        for(i = 0;i<root->children.size();i++){
             pre(root->children[i],ans);
         }
     }
