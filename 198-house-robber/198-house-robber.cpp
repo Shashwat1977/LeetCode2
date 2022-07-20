@@ -1,16 +1,12 @@
 class Solution {
 public:
     int rob(vector<int>& nums) {
-        int n = nums.size();
-        if(n == 0) return 0;
-        if(n<2) return nums[0];
-        vector<int> dp(n,0);
-        dp[0] = nums[0];
-        dp[1] = max(nums[0],nums[1]);
-        if(n==2) return max(dp[0],dp[1]);
-        for(int i = 2;i<n;i++){
-            dp[i] = max(dp[i-1],dp[i-2]+nums[i]);
-        }
-        return dp[n-1];
+        vector<int> dp(nums.size(),-1);
+        return func(nums.size()-1,nums,dp);
+    }
+    int func(int i,vector<int>& nums,vector<int>& dp){
+        if(i<0) return 0;
+        if(dp[i]!=-1) return dp[i];
+        return dp[i] = max(func(i-1,nums,dp),nums[i]+func(i-2,nums,dp));
     }
 };
