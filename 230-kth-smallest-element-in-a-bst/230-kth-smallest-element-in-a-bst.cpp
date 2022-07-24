@@ -12,16 +12,17 @@
 class Solution {
 public:
     int kthSmallest(TreeNode* root, int k) {
-        int ans = 0;
-        inorder(root,ans,k);
+        int ans;
+        find(root,ans,k);
         return ans;
     }
-    void inorder(TreeNode* root,int &ans,int &k){
+    void find(TreeNode* root,int& ans,int& k){
         if(root == NULL) return;
-        inorder(root->left,ans,k);
+        
+        find(root->left,ans,k);
         k--;
         if(k == 0) ans = root->val;
-        inorder(root->right,ans,k);
+        find(root->right,ans,k);
+        
     }
-    
 };
