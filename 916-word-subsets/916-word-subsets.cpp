@@ -1,38 +1,23 @@
 class Solution {
 public:
-    vector<string> wordSubsets(vector<string>& words1, vector<string>& words2) {
-        int n = words1.size();
-        int m = words2.size();
-        vector<vector<int>> vec1(n,vector<int> (26,0));
-        vector<vector<int>> vec2(m,vector<int> (26,0));
-        for(int i = 0;i<n;i++){
-            for(int j = 0;j<words1[i].size();j++){
-                vec1[i][words1[i][j] - 'a']++;
-            }
-        }
-        for(int i = 0;i<m;i++){
-            for(int j = 0;j<words2[i].size();j++){
-                vec2[i][words2[i][j] - 'a']++;
-            }
-        }
-        vector<int> mx(26,0);
-        for(int i = 0;i<26;i++){
-            for(int j = 0;j<words2.size();j++){
-                mx[i] = max(mx[i],vec2[j][i]);
-            }
-        }
-        vector<string> ans;
-        
-        for(int i = 0;i<vec1.size();i++){
-            bool flag = true;
-            for(int j = 0;j<26;j++){
-                if(mx[j]>vec1[i][j]){
-                    flag = false;
-                    break;
-                }
-            }
-            if(flag) ans.push_back(words1[i]);
-        }
-        return ans;
-    }
+    vector<int> countFreq(string& word){
+	vector<int> freq(26);
+	for(auto& c : word) freq[c - 'a']++;
+	return freq;
+}
+vector<string> wordSubsets(vector<string>& A, vector<string>& B) {
+	vector<int> Maxfreq(26); // maintains minimum freq of each char required for a word to be universal word
+	vector<string> ans;
+	for(auto& word : B){
+		vector<int> freq = countFreq(word);            
+		for(int i = 0; i < 26; i++) Maxfreq[i] = max(Maxfreq[i], freq[i]);
+	}        
+	for(auto& word : A){
+		vector<int> freq = countFreq(word);            
+		int i = 0;
+		for(;i < 26; i++) if(freq[i] < Maxfreq[i]) break;
+		if(i == 26) ans.push_back(word);
+	}
+	return ans;
+}    
 };
