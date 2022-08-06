@@ -1,14 +1,17 @@
 class Solution {
 public:
     int countVowelStrings(int n) {
-int ans = 0;
-        for (int j=1; j<=(n+1); j++) {
-            int sum = 0;
-            for (int i=1; i<=j; i++) {
-                sum += i;
-                ans += sum;
-            }
+        int a = 1, e = 1, i = 1, o = 1, u = 1;
+        while(n > 1) {
+			// add new char before prev string
+            a = (a + e + i + o + u); // a, e, i, o, u -> aa, ae, ai, ao, au
+            e = (e + i + o + u); // e, i, o, u -> ee, ei, eo, eu
+            i = (i + o + u); // i, o, u -> ii, io, iu
+            o = (o + u); // o, u -> oo, ou
+            u = (u);; // u -> uu
+            n--;
         }
-        return ans;
+        
+        return a + e + i + o + u;
     }
 };
