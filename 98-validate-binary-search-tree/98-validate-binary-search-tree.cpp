@@ -15,14 +15,10 @@ public:
         return helper(root,-1e10,1e10);
     }
     bool helper(TreeNode* root,long long low,long long high){
-        if(root == NULL){
-            return true;
-        }
-        
-        if(root->val<=low || root->val>= high){
+        if(root == NULL) return true;
+        if(root->val>=high || root->val<=low){
             return false;
         }
-        
-        return helper(root->right,root->val,high)&&helper(root->left,low,root->val);
+        return helper(root->left,low,root->val)&&helper(root->right,root->val,high);
     }
 };
