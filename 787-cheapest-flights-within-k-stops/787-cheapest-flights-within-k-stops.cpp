@@ -1,56 +1,46 @@
-typedef priority_queue<tuple<int,int,int>, vector<tuple<int,int,int>>, greater<tuple<int,int,int>>> MinHeap;
- 
-//Graph data structure, implemented with adjacency list
-class Graph{
-public:
-    vector<vector<pair<int,int>>> adj;
-    int nNodes;
-    void generateGraph(vector<vector<int>> &input, int n){
-        nNodes = n;
-        adj.resize(nNodes+1);
-        for(int i=0; i<input.size(); i++){
-            adj[input[i][0]].push_back({input[i][1], input[i][2]});
-        }
-    }
-    
-    void clear(){
-        adj.clear();
-    }
-};
- 
-int dijkstraSingleTarget(Graph g, int source, int target, int k){
-    MinHeap minHeap;
-    vector<int> dist(g.nNodes+1, INT_MAX);
-    vector<int> stops(g.nNodes+1, INT_MAX);
-    
-    dist[source] = 0;
-    stops[source] = 0;
-    minHeap.push({0, source, 0});
-    
-    while(!minHeap.empty()){
-        auto [curDist, curNode, curStops] = minHeap.top();
-        minHeap.pop();
-        if(curNode == target) return curDist;
-        if(curStops == k+1) continue;
-        for(auto &[nextNode, nextWeight] : g.adj[curNode]){
-            int nextDist = curDist + nextWeight;
-            int nextStops = curStops + 1;
-            if(nextDist < dist[nextNode] || nextStops < stops[nextNode]){
-                dist[nextNode] = nextDist;
-                stops[nextNode] = nextStops;
-                minHeap.push({nextDist, nextNode, nextStops});
-            }
-        }
-    }
-    return -1;
-}
- 
- 
+typedef pair<int, pair<int,int>> pi;
 class Solution {
 public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        Graph g;
-        g.generateGraph(flights, n);
-        return dijkstraSingleTarget(g, src, dst, k);
+        vector<pair<int,int>> adj[n];
+        for(auto c : flights){
+            adj[c[0]].push_back({c[1],c[2]});
+        }
+        vector<int> stops(n,INT_MAX);
+        vector<int> costs(n,INT_MAX);
+        //cost,node,stops
+        priority_queue<pi, vector<pi>, greater<pi>> minHeap;
+        
+        costs[src] = 0;
+        stops[src] = 0;
+        
+        minHeap.push({0,{src,0}});
+        
+        while(!minHeap.empty()){
+            int cost = minHeap.top().first;
+            int node = minHeap.top().second.first;
+            int stop = minHeap.top().second.second;
+            minHeap.pop();
+            for(auto c : adj[node]){
+                if(c.first == dst){
+                    if((costs[c.first] > (cost+c.second)) && (stop <= k)){
+                        costs[c.first] = cost + c.second;
+                        minHeap.push({costs[c.first],{c.first,stop}});
+                    }
+                }
+                else if((costs[c.first] > (cost+c.second)) || ((stops[c.first]-1) > stop)){
+                    costs[c.first] = cost + c.second;
+                    
+                    stops[c.first] = 1 + stop;
+                    minHeap.push({costs[c.first],{c.first,stops[c.first]}});
+                }
+            }
+        }
+        int ans =  costs[dst];
+        if(ans == INT_MAX)
+            ans = -1;
+        return ans;
+        
+        
     }
 };
