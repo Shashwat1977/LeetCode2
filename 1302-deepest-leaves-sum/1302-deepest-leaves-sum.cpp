@@ -13,18 +13,16 @@ class Solution {
 public:
     int deepestLeavesSum(TreeNode* root) {
         queue<TreeNode*> q;
-        if(root == NULL) return 0;
-        int sum = 0;
         q.push(root);
+        long long sum;
         while(!q.empty()){
             int k = q.size();
             sum = 0;
-            for(int i = 0;i<k;i++){
-                TreeNode* node = q.front();
-                q.pop();
-                sum+=node->val;
-                if(node->left) q.push(node->left);
-                if(node->right) q.push(node->right);
+            for(int i=  0;i<k;i++){
+                auto it = q.front();q.pop();
+                sum += it->val;
+                if(it->left)q.push(it->left);
+                if(it->right)q.push(it->right);
             }
         }
         return sum;
