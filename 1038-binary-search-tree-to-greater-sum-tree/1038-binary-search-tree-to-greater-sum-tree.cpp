@@ -13,13 +13,14 @@ class Solution {
 public:
     TreeNode* bstToGst(TreeNode* root) {
         int sum = 0;
+        TreeNode* dummy = root;
         helper(root,sum);
-        return root;
+        return dummy;
     }
-    void helper(TreeNode* root,int& sum){
-        if(root == NULL) return;
+    void helper(TreeNode* root,int &sum){
+        if(root == NULL) return ;
         helper(root->right,sum);
-        sum+=root->val;
+        sum += root->val;
         root->val = sum;
         helper(root->left,sum);
     }
