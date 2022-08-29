@@ -11,20 +11,27 @@
  */
 class Solution {
 public:
-    int cnt;
     int averageOfSubtree(TreeNode* root) {
-        int sum = 0;
-        cnt = 0;
-        auto ans = helper(root);
+        int cnt = 0;
+        auto it =  dfs(root,cnt);
         return cnt;
     }
-    pair<int,int> helper(TreeNode* root){
-        if(root == NULL) return {0,0};
-        auto left = helper(root->left);
-        auto right = helper(root->right);
-        int total = left.first+right.first+root->val;
-        int n = left.second+right.second+1;
-        if(total/n == root->val) cnt++;
-        return {total,n};
+    pair<int,int> dfs(TreeNode* root,int& cnt){
+        int sum = root->val;
+        int c = 1;
+        pair<int,int> l,r;
+        if(root->left){
+            l = dfs(root->left,cnt);
+        }
+        if(root->right){
+            r = dfs(root->right,cnt);
+        }
+        pair<int,int> node;
+        node.first = sum+l.first+r.first;
+        node.second = c + l.second+r.second;
+        if(root->val == node.first/node.second){
+            cnt++;
+        }
+        return node;
     }
 };
