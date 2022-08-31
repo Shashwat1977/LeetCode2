@@ -1,17 +1,24 @@
 class Solution {
 public:
     bool stoneGame(vector<int>& piles) {
+        int i = 0;
         int n = piles.size();
+        int j = n-1;
         vector<vector<int>> dp(n,vector<int> (n,-1));
-        int val = func(0,n-1,piles,dp);
-        if(val>0) return true;
-        else return false;
+        return dp[0][n-1];
     }
-    int func(int i,int j,vector<int>& piles,vector<vector<int>>& dp){
-        if(i == j) return piles[i];
-        if(dp[i][j] != -1) return dp[i][j];
-        int one = piles[i]+func(i+1,j,piles,dp);
-        int two = piles[j]+func(i,j-1,piles,dp);
-        return dp[i][j] = max(one,two);
+    int helper(int i,int j,vector<vector<int>>& dp){
+        if(i>j) return 0;
+        if(dp[i][j] != -1){
+            return dp[i][j];
+        }
+        int ans = 0;
+        if(helper(i+1,j,dp)){
+            ans = 1;
+        }
+        if(helper(i,j-1,dp)){
+            ans = 1;
+        }
+        return dp[i][j] = ans;
     }
 };
